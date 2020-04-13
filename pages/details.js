@@ -1,7 +1,7 @@
 import Layout from '../components/Layout'
 import Link from 'next/link'
 import { withRouter} from 'next/router'
-import { getNewsDetails } from '../api'
+import { getNewsDetails, getNewsExtra } from '../api'
 import { getRgbColor } from '../utils'
 
 const Details = ({ router, data, extraInfo }) => {
@@ -68,10 +68,10 @@ const Details = ({ router, data, extraInfo }) => {
 
 Details.getInitialProps = async ( router )=>{
 	const { id } = router.query
-	
 	const result = await getNewsDetails( id )
-    return {
-		data: result.data,
+	//const extraInfo = await getNewsExtra( id )
+	return {
+		data: result,
 		extraInfo: {}
 	}
 }

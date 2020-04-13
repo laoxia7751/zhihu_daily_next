@@ -1,4 +1,5 @@
 
+import Link from 'next/link'
 const indexHeader = (props) => {
 
     return (
@@ -8,11 +9,12 @@ const indexHeader = (props) => {
                 <span className="month">{parseInt(props.date.substr(4,2))}月</span>
             </div>
             <div className="title">知乎日报</div>
-            <div 
-                className="avatar" 
-                style={{'backgroundImage': 'url(https://pic4.zhimg.com/da8e974dc_im.jpg)'}}
-            >
-            </div>
+            <Link href='/user'>
+                <div 
+                    className="avatar" 
+                    style={{'backgroundImage': 'url(https://pic4.zhimg.com/da8e974dc_im.jpg)'}}
+                ></div>
+            </Link>
         </div>
     )
 }

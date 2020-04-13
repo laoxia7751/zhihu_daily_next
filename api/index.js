@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Toast } from 'antd-mobile'
 
 const configAxios = axios.create({
     baseURL: 'https://v1.alapi.cn/api/',
@@ -8,21 +9,24 @@ const configAxios = axios.create({
     timeout: 60000
 });
 
-// 拦截器
-configAxios.interceptors.response.use((response) => {
-    return response.data
-  }, (error) => {
-    return Promise.reject(error)
-  })
+// 请求拦截
 configAxios.interceptors.request.use((config) => {
     return config
 }, (error) => {
-    console.log(error);
+    return Promise.reject(error)
+})
+
+//响应拦截器
+configAxios.interceptors.response.use((response) => {
+    return response.data.data || response.data
+}, (error) => {
+    console.log(error.statusText);
+    //Toast.info(error)
     return Promise.reject(error)
 })
 
 //获取最新消息
-export const getLatest = ( ) => {
+export const getLatest = () => {
     return configAxios.get('zhihu/latest')
 }
 
@@ -30,21 +34,21 @@ export const getLatest = ( ) => {
  * 获取过往消息
  * @param {Number} date 20191225
  */
-export const getBeforeNews = ( date ) => {
-    return configAxios.get('news/before/'+date)
+export const getBeforeNews = (date) => {
+    return configAxios.get('zhihu/before?date=' + date)
 }
 
 //消息内容获取与离线下载
-export const getNewsDetails = ( id ) => {
-    return configAxios.get('zhihu/news?id='+id)
+export const getNewsDetails = (id) => {
+    return configAxios.get(`zhihu/news?id=${id}`)
 }
 
 /**
  * 获取新闻额外消息(赞，评论)
  * @param {Number} id 
  */
-export const getNewsExtra = ( id ) => {
-    return configAxios.get('zhihu/story-extra/'+id)
+export const getNewsExtra = (id) => {
+    return configAxios.get('http://news-at.zhihu.com/api/4/story-extra/' + id)
 }
 
 /**

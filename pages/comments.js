@@ -20,59 +20,69 @@ const Comments = ({ router, longComments, shortComments }) => {
                     </div>
                     {(longComments.length + shortComments.length) + '条评论'}
                 </div>
-                <div className="total">{longComments.length} 条长评</div>
-                <ul className="comments_list">
-                    {
-                        longComments.map(item => (
-                            <li key={item.id}>
-                                <span className="avatar" style={{backgroundImage: `url(${item.avatar})`}}></span>
-                                <div className="comment_details">
-                                    <div className="author">
-                                        <span className="name">{item.author}</span>
-                                        <span 
-                                            className="iconfont icon-set" 
-                                            onClick={() =>  operation([
-                                                { text: '复制评论', onPress: () => copyContent(item.content) }
-                                            ])}
-                                        />
-                                    </div>
-                                    <div className="words">{item.content}</div>
-                                    <div className="attr">
-                                        <span className="datetime">{item.time}</span>
-                                        <span className="likes">
-                                            <i>{item.likes}</i>
-                                            <i className="iconfont icon-zan"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </li>
-                        ))
-                    }
-                </ul>
-                <div className="total">{shortComments.length} 条短评</div>
-                <ul className="comments_list">
-                    {
-                        shortComments.map(item => (
-                            <li key={item.id}>
-                                <span className="avatar" style={{backgroundImage: `url(${item.avatar})`}}></span>
-                                <div className="comment_details">
-                                    <div className="author">
-                                        <span className="name">{item.author}</span>
-                                        <span className="iconfont icon-set"></span>
-                                    </div>
-                                    <div className="words">{item.content}</div>
-                                    <div className="attr">
-                                        <span className="datetime">{item.time}</span>
-                                        <span className="likes">
-                                            <i>{item.likes}</i>
-                                            <i className="iconfont icon-zan"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </li>
-                        ))
-                    }
-                </ul>
+               {
+                   longComments.length > 0 &&
+                    <>
+                        <div className="total">{longComments.length} 条长评</div>
+                        <ul className="comments_list">
+                            {
+                                longComments.map(item => (
+                                    <li key={item.id}>
+                                        <span className="avatar" style={{backgroundImage: `url(${item.avatar})`}}></span>
+                                        <div className="comment_details">
+                                            <div className="author">
+                                                <span className="name">{item.author}</span>
+                                                <span 
+                                                    className="iconfont icon-set" 
+                                                    onClick={() =>  operation([
+                                                        { text: '复制评论', onPress: () => copyContent(item.content) }
+                                                    ])}
+                                                />
+                                            </div>
+                                            <div className="words">{item.content}</div>
+                                            <div className="attr">
+                                                <span className="datetime">{item.time}</span>
+                                                <span className="likes">
+                                                    <i>{item.likes}</i>
+                                                    <i className="iconfont icon-zan"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                ))
+                            }
+                        </ul>
+                    </>
+                }
+                {
+                    shortComments.length > 0 &&
+                    <>
+                        <div className="total">{shortComments.length} 条短评</div>
+                        <ul className="comments_list">
+                            {
+                                shortComments.map(item => (
+                                    <li key={item.id}>
+                                        <span className="avatar" style={{backgroundImage: `url(${item.avatar})`}}></span>
+                                        <div className="comment_details">
+                                            <div className="author">
+                                                <span className="name">{item.author}</span>
+                                                <span className="iconfont icon-set"></span>
+                                            </div>
+                                            <div className="words">{item.content}</div>
+                                            <div className="attr">
+                                                <span className="datetime">{item.time}</span>
+                                                <span className="likes">
+                                                    <i>{item.likes}</i>
+                                                    <i className="iconfont icon-zan"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                ))
+                            }
+                        </ul>
+                    </>
+                }
             </>
         </Layout>
     )
@@ -82,8 +92,8 @@ Comments.getInitialProps = async ( router ) => {
     const { id }  = router.query
     const result = await Promise.all([ getLongComments( id ), getShortComments( id ) ])
 
-    const longComments = formatTime(result[0].data.comments, 'time')
-    const shortComments = formatTime(result[1].data.comments, 'time')
+    const longComments = formatTime(result[0].comments, 'time')
+    const shortComments = formatTime(result[1].comments, 'time')
 
     return {
 		longComments,
