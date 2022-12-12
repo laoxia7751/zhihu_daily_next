@@ -6,7 +6,7 @@
     "antd-mobile": "2.2.5",
     "babel-plugin-import": "^1.2.1",
     "copy-to-clipboard": "^3.2.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "http-proxy-middleware": "^1.0.3",
     "next": "latest",
     "null-loader": "2.0.0",
